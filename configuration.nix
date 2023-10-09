@@ -8,6 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # Include custom setup
+      ./custom-setup.nix
     ];
 
   nix.settings.experimental-features = "flakes nix-command ca-derivations fetch-closure";
@@ -98,7 +100,7 @@
     shell = pkgs.fish;
     isNormalUser = true;
     description = "matej";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
       fish
@@ -110,10 +112,26 @@
       element-desktop
       signal-desktop
       wireshark-qt
+      
+      # Jetbrains IDEs
       jetbrains.rider
+      jetbrains.clion
+ 
       spotify
+      libsForQt5.kdeconnect-kde
+      brave
+      google-chrome
+      krita
+      postman
+      podman-desktop
+      wacomtablet
+      libwacom
+      xf86_input_wacom
     ];
   };
+
+  # Enable wacom tablet
+  hardware.opentabletdriver.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -121,7 +139,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
      htop
      flutter
@@ -138,6 +156,10 @@
      piper
      libratbag
      filelight
+     gparted
+     docker
+     podman
+     python3
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -152,11 +174,16 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.settings.X11Forwarding = true;
+
+  # Enable docker
+  virtualisation.docker.enable = true;
+  virtualisation.docker.storageDriver = "btrfs";
 
   # Open ports in the firewall.
 
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  # networking.firewall.allowedUDPPorts = [ 9993 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
