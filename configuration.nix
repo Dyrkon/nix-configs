@@ -82,6 +82,17 @@
     #media-session.enable = true;
   };
 
+  # Steam overlay
+  nixpkgs.overlays = [
+    (final: prev: {
+      steam = prev.steam.override ({ extraPkgs ? pkgs': [], ... }: {
+        extraPkgs = pkgs': (extraPkgs pkgs') ++ (with pkgs'; [
+          libgdiplus
+        ]);
+      });
+    })
+  ];
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   
@@ -114,21 +125,38 @@
       wireshark-qt
       
       # Jetbrains IDEs
-      jetbrains.rider
+      (jetbrains.plugins.addPlugins jetbrains.pycharm-community [ "github-copilot" ]) 
+      (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" ])
+      #jetbrains.rider
       jetbrains.clion
+      #jetbrains.pycharm-community
+      jetbrains.datagrip
  
       spotify
       libsForQt5.kdeconnect-kde
       brave
       google-chrome
       krita
-      postman
       podman-desktop
       wacomtablet
       libwacom
       xf86_input_wacom
+      usbutils
+      audacity
+      libreoffice-qt
+      cudatoolkit
+      pandoc
+      ffmpeg
+      rpi-imager
+      blender
+      isoimagewriter
     ];
   };
+
+  # Outdated electron for obsidian
+  nixpkgs.config.permittedInsecurePackages = [
+                "electron-24.8.6"
+              ];
 
   # Enable wacom tablet
   hardware.opentabletdriver.enable = true;
@@ -145,7 +173,6 @@
      flutter
      git
      curl
-     dotnet-sdk_6
      fishPlugins.done
      fishPlugins.fzf-fish
      fishPlugins.forgit
@@ -160,6 +187,15 @@
      docker
      podman
      python3
+     iperf
+     anydesk
+     zip
+     unzip
+     virt-manager
+     vlc
+     sshfs
+     dig
+     lshw
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -177,9 +213,13 @@
   services.openssh.settings.X11Forwarding = true;
 
   # Enable docker
-  virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
-
+  
+  virtualisation.docker = {
+    enable = true;
+    enableNvidia = true;
+    storageDriver = "btrfs";
+  };
+ 
   # Open ports in the firewall.
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
@@ -193,6 +233,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "experimental"; # Did you read the comment?
 
 }
