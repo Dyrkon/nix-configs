@@ -1,0 +1,1 @@
+/home/dyrkon/Code/nix/hardware-configuration.nix

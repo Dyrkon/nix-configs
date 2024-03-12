@@ -7,5 +7,11 @@
     safe.directory = [
       "/etc/nixos"
     ];
+    extraConfig = {
+      color.ui = true;
+      core.editor = "vim";
+      push.default = "simple";
+      pull.rebase = true;
+    };
   };
 }

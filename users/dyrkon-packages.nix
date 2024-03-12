@@ -41,5 +41,13 @@
     darktable
     xplayer
     bitwarden
+    lutris
+    
+    # Wine
+    wine
+    wine64
+    wineWowPackages.stable
+    winetricks
+    wineWowPackages.staging
   ];
 }

@@ -1,0 +1,1 @@
+/home/dyrkon/Code/nix/configuration.nix
