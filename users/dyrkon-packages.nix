@@ -38,7 +38,6 @@
     blender
     isoimagewriter
     neofetch
-    darktable
     xplayer
     bitwarden
     lutris

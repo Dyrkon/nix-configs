@@ -8,33 +8,37 @@
   ];
 
   environment.systemPackages = with pkgs; [
-     vim
-     wget
-     htop
-     curl
-     fishPlugins.done
-     fishPlugins.fzf-fish
-     fishPlugins.forgit
-     fishPlugins.hydro
-     fzf
-     fishPlugins.grc
-     grc
-     piper
-     libratbag
-     filelight
-     gparted
-     docker
-     podman
-     python3
-     iperf
-     anydesk
-     zip
-     unzip
-     virt-manager
-     vlc
-     sshfs
-     dig
-     lshw
-     exfatprogs
+    vim
+    wget
+    htop
+    curl
+    fishPlugins.done
+    fishPlugins.fzf-fish
+    fishPlugins.forgit
+    fishPlugins.hydro
+    fzf
+    fishPlugins.grc
+    grc
+    piper
+    libratbag
+    filelight
+    gparted
+    docker
+    podman
+    python3
+    iperf
+    anydesk
+    zip
+    unzip
+    virt-manager
+    vlc
+    sshfs
+    dig
+    lshw
+    exfatprogs
+    linuxKernel.packages.linux_xanmod_latest.xone
+
+    darktable
+    davinci-resolve
   ];
 }
