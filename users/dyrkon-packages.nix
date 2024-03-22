@@ -41,6 +41,7 @@
     xplayer
     bitwarden
     lutris
+    easyeffects
     
     # Wine
     wine
