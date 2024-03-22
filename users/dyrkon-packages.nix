@@ -42,6 +42,7 @@
     bitwarden
     lutris
     easyeffects
+    obs-studio
     
     # Wine
     wine
