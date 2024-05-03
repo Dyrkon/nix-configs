@@ -37,6 +37,8 @@
     lshw
     exfatprogs
     linuxKernel.packages.linux_xanmod_latest.xone
+    steam-run
+    alejandra
 
     darktable
     davinci-resolve

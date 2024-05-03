@@ -16,8 +16,8 @@
     # Jetbrains IDEs
     (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
     (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" ])
-    jetbrains.clion
-    jetbrains.datagrip
+    # jetbrains.clion
+    # jetbrains.datagrip
 
     spotify
     libsForQt5.kdeconnect-kde
@@ -43,6 +43,7 @@
     lutris
     easyeffects
     obs-studio
+    ulauncher
     
     # Wine
     wine

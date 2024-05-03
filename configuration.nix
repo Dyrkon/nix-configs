@@ -62,6 +62,18 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  system.autoUpgrade = {
+    enable = true;
+    # flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L" # print build logs
+    ];
+    dates = "02:00";
+    randomizedDelaySec = "45min";
+  };
+
   system.stateVersion = "experimental"; # Did you read the comment?
 
 }
