@@ -1,23 +1,24 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      # Include custom setup
-      ./settings/audio.nix
-      ./settings/networking.nix
-      ./settings/package-settings.nix
-      ./settings/peripherals.nix
-      ./settings/virtualisation.nix
-      ./packages/system-packages.nix
-       ./users/dyrkon.nix
-    ];
+    # Include custom setup
+    ./settings/audio.nix
+    ./settings/networking.nix
+    ./settings/package-settings.nix
+    ./settings/peripherals.nix
+    ./settings/virtualisation.nix
+    ./packages/system-packages.nix
+    ./users/dyrkon.nix
+  ];
 
   nix.settings.experimental-features = "flakes nix-command ca-derivations fetch-closure";
 
@@ -50,13 +51,13 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
- 
+
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -75,5 +76,4 @@
   };
 
   system.stateVersion = "experimental"; # Did you read the comment?
-
 }

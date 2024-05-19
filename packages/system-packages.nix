@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ./fish.nix
     ./steam.nix
@@ -42,5 +41,7 @@
 
     darktable
     davinci-resolve
+
+    immersed-vr
   ];
 }

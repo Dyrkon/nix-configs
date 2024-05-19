@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -13,7 +12,7 @@
   services.openssh.enable = true;
   services.openssh.settings.X11Forwarding = true;
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [80 443 21000 21013];
   # networking.firewall.allowedUDPPorts = [ 9993 ];
 
   # Or disable the firewall altogether.

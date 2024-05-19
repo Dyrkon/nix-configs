@@ -1,7 +1,9 @@
-{ config, pkgs, ... }:
-
 {
-  outdated = [ "electron-25.9.0" ];
+  config,
+  pkgs,
+  ...
+}: {
+  outdated = ["electron-25.9.0"];
 
   user-packages = with pkgs; [
     firefox
@@ -14,8 +16,8 @@
     wireshark-qt
 
     # Jetbrains IDEs
-    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
-    (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" ])
+    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
+    (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
     # jetbrains.clion
     # jetbrains.datagrip
 
@@ -37,19 +39,22 @@
     rpi-imager
     blender
     isoimagewriter
-    neofetch
+    fastfetch
     xplayer
     bitwarden
     lutris
     easyeffects
     obs-studio
     ulauncher
-    
+
     # Wine
     wine
     wine64
     wineWowPackages.stable
     winetricks
     wineWowPackages.staging
+
+    # VR
+    immersed-vr
   ];
 }

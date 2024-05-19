@@ -1,5 +1,4 @@
-{ pkgs, ...}:
-{
+{pkgs, ...}: {
   programs.git.enable = true;
   programs.git.config = {
     user.name = "Matej Mudra";
