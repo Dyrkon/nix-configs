@@ -53,8 +53,12 @@
     wineWowPackages.stable
     winetricks
     wineWowPackages.staging
+    protontricks
 
     # VR
-    immersed-vr
+    # immersed-vr
+
+    # Simracing
+    oversteer
   ];
 }

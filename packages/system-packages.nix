@@ -7,10 +7,16 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    vim
+    # Networking
+    wireguard-tools
     wget
-    htop
     curl
+    iperf
+    sshfs
+    dig
+
+    vim
+    htop
     fishPlugins.done
     fishPlugins.fzf-fish
     fishPlugins.forgit
@@ -25,23 +31,22 @@
     docker
     podman
     python3
-    iperf
     anydesk
     zip
     unzip
     virt-manager
     vlc
-    sshfs
-    dig
     lshw
     exfatprogs
     linuxKernel.packages.linux_xanmod_latest.xone
     steam-run
     alejandra
 
+    # Image and video editing
     darktable
     davinci-resolve
 
+    # VR
     immersed-vr
   ];
 }

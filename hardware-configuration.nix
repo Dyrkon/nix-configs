@@ -7,20 +7,24 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}: let
+  fanatecff = config.boot.kernelPackages.callPackage ./users/packages/fanatec.nix {};
+in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel" "v4l2loopback" ];
+  boot.kernelModules = ["kvm-intel" "v4l2loopback" "hid-fanatec"];
   boot.extraModulePackages = with config.boot.kernelPackages; [
-      v4l2loopback.out
-    ];
+    v4l2loopback.out
+    fanatecff
+  ];
   boot.extraModprobeConfig = ''
-      options v4l2loopback exclisive_caps=1 card_label="Virtual Camera"
-    '';
+    options v4l2loopback exclisive_caps=1 card_label="Virtual Camera"
+  '';
+  services.udev.packages = [fanatecff];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/5667f163-ce64-4909-9cf5-49fe937916db";
