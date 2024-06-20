@@ -21,6 +21,7 @@
   ];
 
   nix.settings.experimental-features = "flakes nix-command ca-derivations fetch-closure";
+  nix.settings.trusted-users = ["root" "dyrkon"];
 
   # Electron fix
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -62,6 +63,11 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  # Enable remote
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "startplasma-x11";
+  services.xrdp.openFirewall = true;
 
   system.autoUpgrade = {
     enable = true;

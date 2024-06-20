@@ -42,6 +42,11 @@
     steam-run
     alejandra
 
+    # Development
+    jetbrains.gateway
+    attic-client
+    #git-lfs
+
     # Image and video editing
     darktable
     davinci-resolve
