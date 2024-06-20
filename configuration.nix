@@ -65,9 +65,11 @@
   services.printing.enable = true;
 
   # Enable remote
-  services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "startplasma-x11";
-  services.xrdp.openFirewall = true;
+  services.xrdp = {
+    enable = true;
+    openFirewall = true;
+    defaultWindowManager = "startplasma-x11";
+  };
 
   system.autoUpgrade = {
     enable = true;

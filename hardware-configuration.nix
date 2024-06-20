@@ -9,6 +9,25 @@
   ...
 }: let
   fanatecff = config.boot.kernelPackages.callPackage ./users/packages/fanatec.nix {};
+
+  mkNvidia = args: let
+    imported = import "${inputs.nixpkgs}/pkgs/os-specific/linux/nvidia-x11/generic.nix" args;
+  in
+    config.boot.kernelPackages.callPackage imported {
+      lib32 =
+        (pkgs.pkgsi686Linux.callPackage imported {
+          libsOnly = true;
+          kernel = null;
+        })
+        .out;
+    };
+
+    compatibleDriver = mkNvidia {
+    version = "525.147.05";
+    sha256_64bit = "sha256-Q1GD6lRcfhLjBE15htoHdYozab7+fuUZ6zsGPUrz/vE=";
+    settingsSha256 = "sha256-8RW/G70jr8IV5++Aw+dd5kyhiHMgYFWPWQfmhO7FFjM=";
+    persistencedSha256 = "sha256-rQHmTKB3/8V42kqg7hZiRleiW7ApKZ0eIembM9w78PQ=";
+  };
 in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -59,8 +78,17 @@ in {
       "nvidia-settings"
     ];
 
+  nixpkgs.config = {
+    nvidia.acceptLicense = true;
+  }
+
   # Tell Xorg to use the nvidia driver
   services.xserver.videoDrivers = ["nvidia"];
+
+  systemd.services.nvidia-control-devices = {
+    wantedBy = ["multi-user.target"];
+    serviceConfig.ExecStart = "${config.hardware.nvidia.package.bin}/bin/nvidia-smi";
+  };
 
   hardware.nvidia = {
     # Modesetting is needed for most wayland compositors
@@ -68,13 +96,14 @@ in {
 
     # Use the open source version of the kernel module
     # Only available on driver 515.43.04+
-    open = true;
+    # open = true;
 
     # Enable the nvidia settings menu
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = compatibleDriver;
   };
 
   swapDevices = [];
