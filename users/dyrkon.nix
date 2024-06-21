@@ -1,9 +1,10 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
-  packagesModule = import ./dyrkon-packages.nix {inherit config pkgs;};
+  packagesModule = import ./dyrkon-packages.nix {inherit config pkgs lib;};
 in {
   nixpkgs.config.permittedInsecurePackages = packagesModule.outdated ++ [];
   nixpkgs.config.allowUnfree = true;

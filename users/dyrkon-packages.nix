@@ -1,8 +1,10 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
+  
   outdated = ["electron-25.9.0"];
 
   user-packages = with pkgs; [
@@ -19,7 +21,6 @@
     (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
     (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
     # jetbrains.clion
-    # jetbrains.datagrip
 
     spotify
     libsForQt5.kdeconnect-kde

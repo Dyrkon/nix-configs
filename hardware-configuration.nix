@@ -67,7 +67,6 @@ in {
   # Make sure opengl is enabled
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [libva vaapiVdpau libvdpau-va-gl libgpg-error];
   };

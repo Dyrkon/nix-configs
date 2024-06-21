@@ -2,7 +2,8 @@
   description = "A simple NixOS flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "path:/home/dyrkon/Code/nixpkgs";
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
