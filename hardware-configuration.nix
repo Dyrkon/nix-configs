@@ -16,7 +16,7 @@ in {
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel" "v4l2loopback" "hid-fanatec"];
+  boot.kernelModules = ["kvm-intel" "v4l2loopback" "hid-fanatec" "nvidia-uvm"];
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback.out
     fanatecff
@@ -26,21 +26,22 @@ in {
   '';
   services.udev.packages = [fanatecff];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/5667f163-ce64-4909-9cf5-49fe937916db";
-    fsType = "btrfs";
-    options = ["subvol=@"];
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/4f20c617-82af-41c2-8ba5-18d0894d5359";
+      fsType = "btrfs";
+      options = [ "subvol=@" ];
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/5CD3-A7F8";
-    fsType = "vfat";
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/756D-83B9";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/3666aa85-a9dd-4d77-b2bd-942361d22300";
-    fsType = "btrfs";
-  };
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/3666aa85-a9dd-4d77-b2bd-942361d22300";
+      fsType = "btrfs";
+    };
 
   # GPU settings
   # Make sure opengl is enabled
