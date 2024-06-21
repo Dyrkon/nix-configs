@@ -6,9 +6,10 @@
   lib,
   pkgs,
   modulesPath,
+  inputs,
   ...
 }: let
-  fanatecff = config.boot.kernelPackages.callPackage ./users/packages/fanatec.nix {};
+  # fanatecff = config.boot.kernelPackages.callPackage ./users/packages/fanatec.nix {};
 
   mkNvidia = args: let
     imported = import "${inputs.nixpkgs}/pkgs/os-specific/linux/nvidia-x11/generic.nix" args;
@@ -38,12 +39,12 @@ in {
   boot.kernelModules = ["kvm-intel" "v4l2loopback" "hid-fanatec" "nvidia-uvm"];
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback.out
-    fanatecff
+    # fanatecff
   ];
   boot.extraModprobeConfig = ''
     options v4l2loopback exclisive_caps=1 card_label="Virtual Camera"
   '';
-  services.udev.packages = [fanatecff];
+  # services.udev.packages = [fanatecff];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/4f20c617-82af-41c2-8ba5-18d0894d5359";
@@ -80,7 +81,7 @@ in {
 
   nixpkgs.config = {
     nvidia.acceptLicense = true;
-  }
+  };
 
   # Tell Xorg to use the nvidia driver
   services.xserver.videoDrivers = ["nvidia"];

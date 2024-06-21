@@ -8,16 +8,16 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
 
     # Include custom setup
-    ./settings/audio.nix
-    ./settings/networking.nix
-    ./settings/package-settings.nix
-    ./settings/peripherals.nix
-    ./settings/virtualisation.nix
-    ./packages/system-packages.nix
-    ./users/dyrkon.nix
+    # ./settings/audio.nix
+    # ./settings/networking.nix
+    # ./settings/package-settings.nix
+    # ./settings/peripherals.nix
+    # ./settings/virtualisation.nix
+    # ./packages/system-packages.nix
+    # ./users/dyrkon.nix
   ];
 
   nix.settings.experimental-features = "flakes nix-command ca-derivations fetch-closure";

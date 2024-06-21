@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    autoFetch = true;
     lfs.enable = true;
     config = {
       user.name = "Matej Mudra";
@@ -16,5 +15,5 @@
         pull.rebase = true;
       };
     };
-  }
+  };
 }
