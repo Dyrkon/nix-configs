@@ -6,6 +6,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Allow Wake-on-LAN
+  networking.interfaces.enp5s0.wakeOnLan.enable = true;
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 

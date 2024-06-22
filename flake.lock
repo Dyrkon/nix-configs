@@ -3,7 +3,7 @@
     "nixpkgs": {
       "locked": {
         "lastModified": 0,
-        "narHash": "sha256-7PniXl1qVYeZjMZNe/tfvTitvYAVEHtU7B7+Kzg7VnM=",
+        "narHash": "sha256-6sEvEOo6+AIiNve7FXjPMPEoEeXXQ45kBdrLKk8XJ8s=",
         "path": "/home/dyrkon/Code/nixpkgs",
         "type": "path"
       },
