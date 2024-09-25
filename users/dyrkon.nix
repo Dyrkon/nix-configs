@@ -13,7 +13,7 @@ in {
     shell = pkgs.fish;
     isNormalUser = true;
     description = "matej";
-    extraGroups = ["networkmanager" "wheel" "docker" "libvirtd"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; packagesModule.user-packages ++ [];
   };
 }

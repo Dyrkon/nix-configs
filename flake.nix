@@ -17,9 +17,10 @@
         ./settings/networking.nix
         ./settings/package-settings.nix
         ./settings/peripherals.nix
-        ./settings/virtualisation.nix
         ./packages/system-packages.nix
         ./users/dyrkon.nix
+        ./virtualization/vm.nix
+        ./virtualization/docker.nix
       ];
     };
   };
