@@ -63,6 +63,8 @@ in {
       fsType = "btrfs";
     };
 
+  hardware.xpadneo.enable = true; # Enable support for Xbox One controllers
+
   # GPU settings
   # Make sure opengl is enabled
   hardware.opengl = {

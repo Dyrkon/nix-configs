@@ -17,12 +17,7 @@
 
     vim
     htop
-    fishPlugins.done
-    fishPlugins.fzf-fish
-    fishPlugins.forgit
-    fishPlugins.hydro
     fzf
-    fishPlugins.grc
     grc
     piper
     libratbag
