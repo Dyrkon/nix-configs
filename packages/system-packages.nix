@@ -47,6 +47,6 @@
     davinci-resolve
 
     # VR
-    immersed-vr
+    # immersed-vr
   ];
 }

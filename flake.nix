@@ -2,14 +2,24 @@
   description = "A simple NixOS flake";
 
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs.url = "path:/home/dyrkon/Code/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
+  outputs = { self, nixpkgs, ... }@inputs:
+  let
+    lib = inputs.nixpkgs.lib;
+    system = "x86_64-linux";  # Specify your system here
+    nixpkgs-patched = (import nixpkgs system).applyPatches {
+      name = "nixpkgs-patched-rider-dev-server";
+      src = nixpkgs;
+      patches = [
+        ./patches/rider-dev-server.patch
+      ];
+    };
+  in {
     nixosConfigurations.facis-nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = {inherit inputs;};
+      specialArgs = { inherit inputs system; };
       modules = [
         ./configuration.nix
         ./hardware-configuration.nix

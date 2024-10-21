@@ -3,10 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
-  
-  outdated = ["electron-25.9.0"];
-
+}: 
+{
   user-packages = with pkgs; [
     firefox
     jetbrains-toolbox
@@ -18,9 +16,9 @@
     wireshark-qt
 
     # Jetbrains IDEs
-    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
-    (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
     # jetbrains.clion
+    # (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
+    (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
 
     spotify
     libsForQt5.kdeconnect-kde

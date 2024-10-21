@@ -15,8 +15,13 @@
   services.openssh.enable = true;
   services.openssh.settings.X11Forwarding = true;
 
-  networking.firewall.allowedTCPPorts = [80 443 21000 21013 8000 5126 5179 8001];
-  # networking.firewall.allowedUDPPorts = [ 9993 ];
+  networking.firewall.allowedTCPPorts = [80 443 21000 21013 64172 ];
+  networking.firewall.allowedUDPPorts = [ 64172 67 69 4011 ];
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 8000; to = 8010; }
+    { from = 5000; to = 5500; }
+  ];
+
 
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
