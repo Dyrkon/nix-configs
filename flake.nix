@@ -1,37 +1,45 @@
 {
-  description = "A simple NixOS flake";
+  description = "Dyrkon's flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+
+    snowfall-lib = {
+      url = "github:snowfallorg/lib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
-  let
-    lib = inputs.nixpkgs.lib;
-    system = "x86_64-linux";  # Specify your system here
-    nixpkgs-patched = (import nixpkgs system).applyPatches {
-      name = "nixpkgs-patched-rider-dev-server";
-      src = nixpkgs;
-      patches = [
-        ./patches/rider-dev-server.patch
-      ];
+  outputs = {self, ...} @ inputs: let
+    lib = inputs.snowfall-lib.mkLib {
+      inherit inputs;
+      src = ./.;
+
+      snowfall = {
+        meta = {
+          name = "dyrkonix";
+          title = "DyrkoNix";
+        };
+
+        namespace = "dyrkonix";
+      };
     };
-  in {
-    nixosConfigurations.facis-nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs system; };
-      modules = [
-        ./configuration.nix
-        ./hardware-configuration.nix
-        ./settings/audio.nix
-        ./settings/networking.nix
-        ./settings/package-settings.nix
-        ./settings/peripherals.nix
-        ./packages/system-packages.nix
-        ./users/dyrkon.nix
-        ./virtualization/vm.nix
-        ./virtualization/docker.nix
-      ];
+  in
+    lib.mkFlake {
+      channels-config = {
+        # allowBroken = true;
+        allowUnfree = true;
+
+        permittedInsecurePackages = [];
+      };
+
+      outputs-builder = channels: {
+        formatter = channels.nixpkgs.alejandra;
+      };
     };
-  };
 }
