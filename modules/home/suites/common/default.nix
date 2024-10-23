@@ -15,24 +15,37 @@ in {
   };
 
   config = mkIf cfg.enable {
-    dyrkonix = {
-      hardware = {
-        bluetooth = enabled;
-        networking = enabled;
-        sound = enabled;
-        additional-hardware = enabled;
-      };
+    home.shellAliases = {
+      nixcfg = "nvim ~/${namespace}/flake.nix";
+    };
 
-      nix = enabled;
+    home.packages = with pkgs; [
+      ncdu
+      smassh
+      toilet
+      tree
+    ];
 
     dyrkonix = {
       programs = {
+        graphical = {
+          browsers = {
+            firefox = enabled;
+          };
+        };
+
         terminal = {
           shell = {
             fish = enabled;
           };
+
+          tools = {
+            git = enabled;
+          };
         };
       };
     };
+
+    # xdg.configFile.wgetrc.text = "";
   };
 }

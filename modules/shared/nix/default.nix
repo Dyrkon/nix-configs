@@ -4,7 +4,6 @@
   lib,
   pkgs,
   namespace,
-  host,
   ...
 }: let
   inherit (lib.${namespace}) mkBoolOpt mkOpt;
@@ -57,7 +56,6 @@ in {
       ];
     in {
       inherit (cfg) package;
-
       gc = {
         automatic = true;
         options = "--delete-older-than 7d";

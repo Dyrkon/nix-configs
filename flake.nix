@@ -1,8 +1,11 @@
 {
-  description = "Dyrkon's flake";
+  description = "Dyrkon's Nix configuration flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    # NixPkgs (nixos-unstable)
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
 
     snowfall-lib = {
       url = "github:snowfallorg/lib";
@@ -13,10 +16,24 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Snowfall Flake
+    snowfall-flake = {
+      url = "github:snowfallorg/flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # macOS Support (master)
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {self, ...} @ inputs: let
     lib = inputs.snowfall-lib.mkLib {
+      # You must pass in both your flake's inputs and the root directory of
+      # your flake.
       inherit inputs;
       src = ./.;
 
@@ -27,6 +44,7 @@
         };
 
         namespace = "dyrkonix";
+
       };
     };
   in
@@ -40,6 +58,7 @@
 
       outputs-builder = channels: {
         formatter = channels.nixpkgs.alejandra;
+
       };
     };
 }
