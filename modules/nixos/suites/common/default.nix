@@ -23,6 +23,13 @@ in {
         additional-hardware = enabled;
       };
 
+      tools = {
+        utilities = enabled;
+        zerotier = enabled;
+        remote-desktop = enabled;
+        networking = enabled;
+      };
+
       nix = enabled;
 
       programs = {

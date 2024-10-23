@@ -29,6 +29,7 @@ in {
       enable = true;
       joinNetworks = [
         "9f77fc393e21b526"
+        "af78bf94369281cd"
       ];
       port = 9993;
     };
