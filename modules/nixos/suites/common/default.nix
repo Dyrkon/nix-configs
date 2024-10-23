@@ -25,7 +25,6 @@ in {
 
       nix = enabled;
 
-    dyrkonix = {
       programs = {
         terminal = {
           shell = {

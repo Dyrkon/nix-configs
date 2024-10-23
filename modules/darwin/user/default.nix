@@ -4,14 +4,12 @@
   pkgs,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib) types mkIf;
   inherit (lib.${namespace}) mkOpt;
 
   cfg = config.${namespace}.user;
-in
-{
+in {
   options.${namespace}.user = {
     name = mkOpt types.str "matej" "The user account.";
     email = mkOpt types.str "dyrkon603@gmail.com" "The email of the user.";

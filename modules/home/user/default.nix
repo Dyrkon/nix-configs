@@ -47,15 +47,14 @@ in {
       ];
 
       home = {
-        file =
-          {
-            "Desktop/.keep".text = "";
-            "Documents/.keep".text = "";
-            "Downloads/.keep".text = "";
-            "Music/.keep".text = "";
-            "Pictures/.keep".text = "";
-            "Videos/.keep".text = "";
-          };
+        file = {
+          "Desktop/.keep".text = "";
+          "Documents/.keep".text = "";
+          "Downloads/.keep".text = "";
+          "Music/.keep".text = "";
+          "Pictures/.keep".text = "";
+          "Videos/.keep".text = "";
+        };
 
         homeDirectory = mkDefault cfg.home;
 

@@ -15,9 +15,9 @@ in {
 
     programs = {
       terminal = {
-          shell = {
-            fish = enabled;
-          };
+        shell = {
+          fish = enabled;
+        };
       };
     };
 

@@ -44,7 +44,6 @@
         };
 
         namespace = "dyrkonix";
-
       };
     };
   in
@@ -58,7 +57,6 @@
 
       outputs-builder = channels: {
         formatter = channels.nixpkgs.alejandra;
-
       };
     };
 }

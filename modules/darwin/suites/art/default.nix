@@ -4,14 +4,12 @@
   pkgs,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt;
 
   cfg = config.${namespace}.suites.art;
-in
-{
+in {
   options.${namespace}.suites.art = {
     enable = mkBoolOpt false "Whether or not to enable art configuration.";
   };
@@ -28,7 +26,7 @@ in
         "gimp"
       ];
 
-      masApps = mkIf config.${namespace}.tools.homebrew.masEnable {  };
+      masApps = mkIf config.${namespace}.tools.homebrew.masEnable {};
     };
   };
 }

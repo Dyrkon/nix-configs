@@ -3,14 +3,12 @@
   lib,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt;
 
   cfg = config.${namespace}.tools.homebrew;
-in
-{
+in {
   options.${namespace}.tools.homebrew = {
     enable = mkBoolOpt false "Whether or not to enable homebrew.";
     masEnable = mkBoolOpt false "Whether or not to enable Mac App Store downloads.";

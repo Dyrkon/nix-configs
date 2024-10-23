@@ -4,14 +4,12 @@
   pkgs,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt;
 
   cfg = config.${namespace}.suites.vm;
-in
-{
+in {
   options.${namespace}.suites.vm = {
     enable = mkBoolOpt false "Whether or not to enable vm.";
   };
@@ -26,9 +24,9 @@ in
     ];
 
     homebrew = {
-      taps = [ "arthurk/virt-manager" ];
+      taps = ["arthurk/virt-manager"];
 
-      casks = [ "utm" ];
+      casks = ["utm"];
     };
   };
 }

@@ -3,13 +3,11 @@
   lib,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib.${namespace}) mkBoolOpt enabled;
 
   cfg = config.${namespace}.archetypes.personal;
-in
-{
+in {
   options.${namespace}.archetypes.personal = {
     enable = mkBoolOpt false "Whether or not to enable the personal archetype.";
   };

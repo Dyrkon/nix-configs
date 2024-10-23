@@ -4,18 +4,15 @@
   pkgs,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib) types mkIf;
   inherit (lib.${namespace}) mkBoolOpt mkOpt;
 
   cfg = config.${namespace}.system.fonts;
-in
-{
+in {
   options.${namespace}.system.fonts = with types; {
     enable = mkBoolOpt false "Whether or not to manage fonts.";
-    fonts =
-      with pkgs;
+    fonts = with pkgs;
       mkOpt (listOf package) [
         # Desktop Fonts
         corefonts # MS fonts
