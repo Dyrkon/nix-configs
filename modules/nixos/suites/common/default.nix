@@ -30,6 +30,10 @@ in {
         networking = enabled;
       };
 
+      services = {
+        general = enabled;
+      };
+
       nix = enabled;
 
       programs = {
