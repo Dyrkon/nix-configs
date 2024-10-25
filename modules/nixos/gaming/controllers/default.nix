@@ -20,6 +20,7 @@
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt;
   cfg = config.${namespace}.gaming.controllers;
+  freejoy = lib.path.append inputs.self.snowfall.config.src "misc/99-hid-FreeJoy.rules";
 in {
   options.${namespace}.gaming.controllers = {
     enable = mkBoolOpt false "Whether or not to enable support for controllers.";
@@ -28,6 +29,9 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       linuxKernel.packages.linux_xanmod_latest.xone
+      libusbp
     ];
+
+    services.udev.extraRules = builtins.readFile freejoy;
   };
 }
