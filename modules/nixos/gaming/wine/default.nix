@@ -32,6 +32,7 @@ in {
       wineWowPackages.stable
       winetricks
       wineWowPackages.staging
+      xwayland
       protontricks
     ];
   };
