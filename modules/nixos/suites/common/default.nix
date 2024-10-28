@@ -23,6 +23,10 @@ in {
         additional-hardware = enabled;
       };
 
+      settings = {
+        localization = enabled;
+      };
+
       tools = {
         utilities = enabled;
         zerotier = enabled;

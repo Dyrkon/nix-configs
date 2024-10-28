@@ -28,6 +28,12 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs = {self, ...} @ inputs: let
@@ -54,6 +60,10 @@
 
         permittedInsecurePackages = [];
       };
+
+      homes.modules = with inputs; [
+        plasma-manager.homeManagerModules.plasma-manager
+      ];
 
       outputs-builder = channels: {
         formatter = channels.nixpkgs.alejandra;

@@ -32,10 +32,5 @@ in {
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
       # gamescopeSession.enable = true; # Enable gamescope
     };
-
-    environment.sessionVariables = {
-      STEAM_FORCE_DESKTOPUI_SCALING = "2";
-    };
-
   };
 }
