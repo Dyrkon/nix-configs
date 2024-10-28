@@ -22,6 +22,7 @@ in {
         steam = enabled;
         wine = enabled;
         simracing = enabled;
+        vr = enabled;
       };
     };
   };
