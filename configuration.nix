@@ -10,28 +10,13 @@
       ./hardware-configuration.nix
     ];
 
-  nix.settings.experimental-features = "nix-command flakes";
-
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
-  # Enable grub cryptodisk
-  boot.loader.grub.enableCryptodisk=true;
-
-  boot.initrd.luks.devices."luks-c4a702e6-1bbb-4aaf-b1b3-a547e22ba740".keyFile = "/crypto_keyfile.bin";
-  # Enable swap on luks
-  boot.initrd.luks.devices."luks-c82e8bf7-4281-4f6d-b433-e368c8744b24".device = "/dev/disk/by-uuid/c82e8bf7-4281-4f6d-b433-e368c8744b24";
-  boot.initrd.luks.devices."luks-c82e8bf7-4281-4f6d-b433-e368c8744b24".keyFile = "/crypto_keyfile.bin";
-
-  networking.hostName = "nixos"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "babicka"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -44,7 +29,7 @@
   time.timeZone = "Europe/Prague";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "cs_CZ.UTF-8";
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "cs_CZ.UTF-8";
@@ -67,9 +52,12 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
+    layout = "cz";
     xkbVariant = "";
   };
+
+  # Configure console keymap
+  console.keyMap = "cz-lat2";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -94,58 +82,55 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Set fish as default shell
-  programs.fish.enable = true;
+  security.pam.services.sddm.enableKwallet = true;
+  security.pam.services.kwallet = {
+    name = "kwallet";
+    enableKwallet = true;
+  };
+  security.pam.services.login.enableKwallet = true;
 
-  # Enable steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };  
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.matej = {
-    shell = pkgs.fish;
+  users.users.sona = {
     isNormalUser = true;
-    description = "Matej";
+    shell = pkgs.fish;
+    description = "Soňa Tomisová";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
-      fish
-      jetbrains-toolbox
-      steam
-      vscode
-      obsidian
-      discord
-      element-desktop
-      signal-desktop
-      wireshark-qt
-      jetbrains.rider
-      spotify
+      kate
+    #  thunderbird
     ];
   };
+
+  # Enable automatic login for the user.
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "sona";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  programs.fish.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-     htop
-     flutter
-     git
-     curl
-     dotnet-sdk_6
-     fishPlugins.done
-     fishPlugins.fzf-fish
-     fishPlugins.forgit
-     fishPlugins.hydro
-     fzf
-     fishPlugins.grc
-     grc
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    firefox
+    wget
+    git
+    vscode
+    libreoffice-still
+    filelight
+    unzip
+    zip
+    vlc
+    sshfs
+    lshw
+    htop
+    xrdp
+    wireshark
+    libsForQt5.kwallet-pam
+    oh-my-fish
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -160,10 +145,23 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.settings.X11Forwarding = true;
 
+  # Zerotier
+  services.zerotierone = {
+    enable = true;
+    joinNetworks = ["af78bf94369281cd"];
+  };
+
+  # RDP
+  services.xrdp.enable = true;
+  services.xrdp.port = 3389;
+  services.xrdp.defaultWindowManager = "/run/current-system/sw/bin/startplasma-x11";
+  services.xrdp.openFirewall = true;
+ 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 3389 22 ];
+  networking.firewall.allowedUDPPorts = [ 3389 22 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
@@ -173,6 +171,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
