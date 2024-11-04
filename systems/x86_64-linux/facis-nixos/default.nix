@@ -37,6 +37,10 @@ in {
       browsing = {
         enable = true;
       };
+      
+      development = {
+        enable = true;
+      };
     };
   };
 
