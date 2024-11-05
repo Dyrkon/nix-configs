@@ -3,11 +3,9 @@
   lib,
   namespace,
   ...
-}:
-let
+}: let
   inherit (lib.${namespace}) enabled;
-in
-{
+in {
   dyrkonix = {
     user = {
       enable = true;

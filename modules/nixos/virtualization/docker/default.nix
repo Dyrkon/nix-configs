@@ -24,10 +24,24 @@ in {
   options.${namespace}.virtualization.docker = {
     enable = mkBoolOpt false "Whether or not to enable support for photo editing.";
   };
+
   config = mkIf cfg.enable {
+    dyrkonix = {
+      user = {
+        extraGroups = [
+          "docker"
+        ];
+      };
+    };
+
+    hardware.nvidia-container-toolkit.enable = true;
+
     virtualisation.docker = {
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
       enable = true;
-      # enableNvidia = true;
       storageDriver = "btrfs";
     };
   };

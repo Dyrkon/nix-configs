@@ -27,7 +27,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-
     # We need alsamixer to set device output to 100%, it sometimes defaults to 50%
     environment.systemPackages = with pkgs; [
       alsa-utils

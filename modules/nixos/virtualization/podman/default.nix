@@ -35,7 +35,6 @@ in {
     dyrkonix = {
       user = {
         extraGroups = [
-          "docker"
           "podman"
         ];
       };

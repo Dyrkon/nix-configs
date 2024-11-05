@@ -16,13 +16,6 @@ in {
 
   config = mkIf cfg.enable {
     dyrkonix = {
-      tools = {
-        utilities = enabled;
-        zerotier = enabled;
-        remote-desktop = enabled;
-        networking = enabled;
-      };
-      
       virtualization = {
         docker = enabled;
         kvm = enabled;

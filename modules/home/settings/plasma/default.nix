@@ -10,7 +10,6 @@
 
   cfg = config.${namespace}.settings.plasma;
 in {
-
   options.${namespace}.settings.plasma = {
     enable = mkBoolOpt false "Whether or not to enable support for localization setting.";
   };
