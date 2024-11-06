@@ -37,6 +37,10 @@ in {
       browsing = {
         enable = true;
       };
+
+      data-analysis = {
+        enable = true;
+      };
     };
   };
 
