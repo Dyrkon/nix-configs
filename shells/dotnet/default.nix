@@ -5,7 +5,6 @@
 }:
 mkShell {
   packages = with pkgs; [
-    azure-cli
     dotnetbuildhelpers
     dotnetPackages.Nuget
     msbuild

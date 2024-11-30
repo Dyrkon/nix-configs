@@ -26,8 +26,8 @@ in {
   };
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      # jetbrains.clion
-      # (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
+      jetbrains.clion
+      (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
       (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
       vscode
     ];

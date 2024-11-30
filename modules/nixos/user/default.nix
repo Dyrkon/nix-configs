@@ -39,6 +39,7 @@ in {
         isNormalUser = true;
         home = "/home/${cfg.name}";
         group = "users";
+        uid = 1027;
         extraGroups = ["wheel"];
       }
       // cfg.extraOptions;
