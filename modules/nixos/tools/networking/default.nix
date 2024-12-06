@@ -33,6 +33,7 @@ in {
       iperf
       sshfs
       dig
+      filezilla
     ];
   };
 }

@@ -13,6 +13,8 @@ mkShell {
     john
     fcrackzip
     bkcrack
+    hashcat
+    zip2hashcat
   ];
 
   shellHook = ''

@@ -54,6 +54,7 @@ in {
 
     services.openssh.enable = true;
     services.openssh.settings.X11Forwarding = true;
+    services.openssh.extraConfig = ''AllowTcpForwarding yes'';
 
     # NFS client
     fileSystems."/home/${config.${namespace}.user.name}/Nas" = {
