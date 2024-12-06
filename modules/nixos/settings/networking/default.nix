@@ -59,10 +59,10 @@ in {
     fileSystems."/home/${config.${namespace}.user.name}/Nas" = {
       device = "192.168.193.101:/volume1/mbackup";
       fsType = "nfs";
-      options = [ "x-systemd.automount" "noauto" ];
+      options = ["x-systemd.automount" "noauto"];
     };
 
-    networking.firewall.allowedTCPPorts = [80 443 21000 21013 64172 2049 ];
+    networking.firewall.allowedTCPPorts = [80 443 21000 21013 64172 2049];
     networking.firewall.allowedUDPPorts = [64172 67 69 4011];
     networking.firewall.allowedTCPPortRanges = [
       {

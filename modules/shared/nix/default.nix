@@ -71,6 +71,33 @@ in {
       # this will add each flake input as a registry to make nix3 commands consistent with your flake
       registry = mappedRegistry;
 
+      distributedBuilds = true;
+      buildMachines = let
+        supportedFeatures = [
+          "benchmark"
+          "big-parallel"
+          "nixos-test"
+        ];
+        hostName = "builder";
+      in
+        lib.filter (m: m.hostName != "${config.networking.hostName}") [
+          {
+            inherit hostName;
+            systems = ["x86_64-linux" "i686-linux"];
+            maxJobs = 16;
+            speedFactor = 10;
+            supportedFeatures = supportedFeatures ++ ["kvm" "benchmark"];
+          }
+          # {
+          #   hostName = "rp4";
+          #   systems = [ "aarch64-linux" ];
+          #   maxJobs = 2;
+          #   supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
+          #   inherit sshUser sshKey;
+          #   speedFactor = 2;
+          # }
+        ];
+
       settings = {
         allowed-users = users;
         auto-optimise-store = true;
