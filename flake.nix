@@ -34,6 +34,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+    };
   };
 
   outputs = {self, ...} @ inputs: let
@@ -61,8 +65,18 @@
         permittedInsecurePackages = [];
       };
 
+      systems = {
+        modules = {
+          darwin = with inputs; [ sops-nix.darwinModules.sops ];
+          nixos = with inputs; [
+            sops-nix.nixosModules.sops
+          ];
+        };
+      };
+
       homes.modules = with inputs; [
         plasma-manager.homeManagerModules.plasma-manager
+        sops-nix.homeManagerModules.sops
       ];
 
       outputs-builder = channels: {

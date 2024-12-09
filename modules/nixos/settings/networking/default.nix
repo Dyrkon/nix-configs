@@ -49,7 +49,7 @@ in {
     # Allow Wake-on-LAN
     networking.interfaces.enp5s0.wakeOnLan.enable = true;
 
-    networking.hostName = lib.mkForce "nixos"; # Define your hostname.
+    networking.hostName = lib.mkForce "bigpc"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
     services.openssh.enable = true;

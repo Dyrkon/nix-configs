@@ -25,8 +25,12 @@ in {
     enable = mkBoolOpt false "Whether or not to enable support for photo editing.";
   };
   config = mkIf cfg.enable {
+    programs.vim = {
+      enable = true;
+      defaultEditor = true;
+    };
+
     environment.systemPackages = with pkgs; [
-      vim
       htop
       fzf
       grc

@@ -1,0 +1,9 @@
+keys:
+  - &pc age155v5ccstz6u55n7k5xufvv0x24yu3z8vzc63ysgtwjex360aqv8q945w7g
+  - &macpro age1cgew7m37a3mg4y38adw0lpyy6zacg8gxn8y4kft74gcpycvnmdyqn9u7mf
+creation_rules:
+  - path_regex: secrets/secrets.yaml$
+    key_groups:
+    - age:
+      - *pc
+      - *macpro

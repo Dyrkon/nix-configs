@@ -14,6 +14,7 @@ in {
 
     suites = {
       settings = enabled;
+      desktop = enabled;
     };
   };
 

@@ -52,6 +52,8 @@
         Hostname ${name}.local
         User ${remote-user-name}
         ForwardAgent yes
+        ForwardX11 yes
+        ForwardX11Trusted yes
         # ${port-expr}
         # ${forward-gpg}
     ''

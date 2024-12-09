@@ -38,6 +38,10 @@ in {
     # Enable CUPS to print documents.
     services.printing.enable = true;
 
+    # OpenVPN
+    services.openvpn.servers = {
+    };
+
     # Enable remote
     services.xrdp = {
       enable = true;

@@ -15,6 +15,8 @@ mkShell {
     bkcrack
     hashcat
     zip2hashcat
+    binwalk
+    p7zip
   ];
 
   shellHook = ''

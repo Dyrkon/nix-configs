@@ -78,11 +78,10 @@ in {
           "big-parallel"
           "nixos-test"
         ];
-        hostName = "builder";
       in
         lib.filter (m: m.hostName != "${config.networking.hostName}") [
           {
-            inherit hostName;
+            hostName = "bigpc";
             systems = ["x86_64-linux" "i686-linux"];
             maxJobs = 16;
             speedFactor = 10;
