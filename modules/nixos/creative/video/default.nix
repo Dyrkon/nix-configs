@@ -29,7 +29,6 @@ in {
       davinci-resolve
       vlc
       ffmpeg
-      xplayer
       obs-studio
     ];
   };

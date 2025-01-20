@@ -29,6 +29,7 @@ in {
       spotify
       easyeffects
       audacity
+      rhythmbox
     ];
   };
 }
