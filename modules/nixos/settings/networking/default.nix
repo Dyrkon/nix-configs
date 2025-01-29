@@ -58,9 +58,9 @@ in {
 
     # NFS client
     fileSystems."/home/${config.${namespace}.user.name}/Nas" = {
-      device = "192.168.193.101:/volume1/mbackup";
+      device = "192.168.1.87:/volume1/mbackup";
       fsType = "nfs";
-      options = ["x-systemd.automount" "noauto"];
+      options = ["x-systemd.automount" "noauto" "nofail"];
     };
 
     networking.firewall.allowedTCPPorts = [80 443 21000 21013 64172 2049];

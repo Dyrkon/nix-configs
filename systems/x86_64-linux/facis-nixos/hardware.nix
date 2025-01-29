@@ -59,6 +59,12 @@ in {
     fsType = "btrfs";
   };
 
+  # Swap device
+   swapDevices = [ {
+    device = "/var/lib/swapfile";
+    size = 16*1024;
+  } ];
+
   hardware.xpadneo.enable = true; # Enable support for Xbox One controllers
 
   # GPU settings
@@ -102,8 +108,6 @@ in {
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
     package = compatibleDriver;
   };
-
-  swapDevices = [];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
