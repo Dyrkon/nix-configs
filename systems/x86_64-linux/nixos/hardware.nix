@@ -20,22 +20,34 @@
     options v4l2loopback exclisive_caps=1 card_label="Virtual Camera"
   '';
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/4f20c617-82af-41c2-8ba5-18d0894d5359";
-    fsType = "btrfs";
-    options = ["subvol=@"];
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/106961b2-dd40-4047-8aec-fb91d55239d5";
+      fsType = "btrfs";
+      options = [ "subvol=root" ];
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/756D-83B9";
-    fsType = "vfat";
-    options = ["fmask=0022" "dmask=0022"];
-  };
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/106961b2-dd40-4047-8aec-fb91d55239d5";
+      fsType = "btrfs";
+      options = [ "subvol=nix" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/6737-98EE";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/3666aa85-a9dd-4d77-b2bd-942361d22300";
     fsType = "btrfs";
   };
+
+  # Swap device
+   swapDevices = [ {
+    device = "/var/lib/swapfile";
+    size = 16*1024;
+  } ];
 
   # GPU settings
   hardware.graphics = {
@@ -67,9 +79,7 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
-
-  swapDevices = [];
-
+  
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction

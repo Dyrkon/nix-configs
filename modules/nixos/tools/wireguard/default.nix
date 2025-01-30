@@ -19,20 +19,28 @@
 }: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt;
-  cfg = config.${namespace}.tools.zerotier;
+  cfg = config.${namespace}.tools.wireguard;
 in {
-  options.${namespace}.tools.zerotier = {
-    enable = mkBoolOpt false "Whether or not to enable zerotier VPN.";
+  options.${namespace}.tools.wireguard = {
+    enable = mkBoolOpt false "Whether or not to enable wireguard VPN.";
   };
   config = mkIf cfg.enable {
-    services.zerotierone = {
-      enable = true;
-      joinNetworks = [
-        "9f77fc393e21b526"
-        "af78bf94369281cd"
-        "0cccb752f79256ec"
+    networking.wireguard.enable = true;
+    networking.wg-quick.interfaces = {
+    wg0 = {
+      address = [ "10.200.200.16/32" ];
+      privateKeyFile = config.sops.secrets."private-keys/wireguard".path;
+      
+      peers = [
+        {
+          publicKey = "Vaa223qFv/XB7fZm4xS4cd8R+CawL52DhCVvcnWBEm0=";
+          presharedKey = "FmsaupyZnEj3RD26bVu01QXt5T/89g6Nn9KcEIRBs1Y=";
+          allowedIPs = [ "10.100.200.0/24" "192.168.100.0/24" ];
+          endpoint = "wg.nesad.fit.vutbr.cz:51820";
+          persistentKeepalive = 16;
+        }
       ];
-      port = 9993;
     };
+  };
   };
 }

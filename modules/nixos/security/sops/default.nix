@@ -30,8 +30,11 @@ in
         "zerotier/dum" = {};
         "zerotier/praha" = {};
         "zerotier/brno" = {};
-        "public_keys/macpro" = {};
-        "public_keys/pc" = {};
+        "public-keys/macpro" = {};
+        "public-keys/pc" = {};
+        "private-keys/wireguard" = {
+          owner = config.${namespace}.user.name;
+        };
       };
     };
   };

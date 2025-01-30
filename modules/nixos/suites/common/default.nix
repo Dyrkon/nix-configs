@@ -30,6 +30,7 @@ in {
       tools = {
         utilities = enabled;
         zerotier = enabled;
+        wireguard = enabled;
         remote-desktop = enabled;
         networking = enabled;
       };
