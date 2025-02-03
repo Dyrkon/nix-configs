@@ -46,7 +46,14 @@ in {
         enable = true;
       };
     };
-  };
+security = {
+      sops = {
+        enable = true;
+        defaultSopsFile = lib.snowfall.fs.get-file "secrets/secrets.yaml";
+        sshKeyPaths = [ "${config.users.users.${config.${namespace}.user.name}.home}/.ssh/id_ed25519" ];
+      };
+    };  
+};
 
   nix.settings = {
     cores = 8;

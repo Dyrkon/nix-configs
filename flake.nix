@@ -4,7 +4,7 @@
   inputs = {
     # NixPkgs (nixos-unstable)
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-unstable";
+      url = "github:NixOS/nixpkgs/nixos-unstable";
     };
 
     snowfall-lib = {
