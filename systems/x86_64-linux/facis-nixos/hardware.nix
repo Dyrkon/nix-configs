@@ -23,23 +23,23 @@ in {
   '';
   # services.udev.packages = [fanatecff];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/106961b2-dd40-4047-8aec-fb91d55239d5";
-      fsType = "btrfs";
-      options = [ "subvol=root" ];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/106961b2-dd40-4047-8aec-fb91d55239d5";
+    fsType = "btrfs";
+    options = ["subvol=root"];
+  };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/106961b2-dd40-4047-8aec-fb91d55239d5";
-      fsType = "btrfs";
-      options = [ "subvol=nix" ];
-    };
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/106961b2-dd40-4047-8aec-fb91d55239d5";
+    fsType = "btrfs";
+    options = ["subvol=nix"];
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6737-98EE";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/6737-98EE";
+    fsType = "vfat";
+    options = ["fmask=0022" "dmask=0022"];
+  };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/3666aa85-a9dd-4d77-b2bd-942361d22300";
@@ -47,10 +47,12 @@ in {
   };
 
   # Swap device
-   swapDevices = [ {
-    device = "/var/lib/swapfile";
-    size = 16*1024;
-  } ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
+  ];
 
   hardware.xpadneo.enable = true; # Enable support for Xbox One controllers
 

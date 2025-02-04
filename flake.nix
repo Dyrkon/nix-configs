@@ -67,7 +67,7 @@
 
       systems = {
         modules = {
-          darwin = with inputs; [ sops-nix.darwinModules.sops ];
+          darwin = with inputs; [sops-nix.darwinModules.sops];
           nixos = with inputs; [
             sops-nix.nixosModules.sops
           ];
