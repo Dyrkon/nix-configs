@@ -23,6 +23,7 @@ in {
         wine = enabled;
         simracing = enabled;
         vr = enabled;
+        launchers = enabled;
       };
     };
   };
