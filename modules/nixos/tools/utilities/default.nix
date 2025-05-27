@@ -35,7 +35,7 @@ in {
       fzf
       grc
       piper
-      filelight
+      kdePackages.filelight
       gparted
       zip
       unzip

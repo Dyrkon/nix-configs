@@ -26,8 +26,9 @@ in {
   };
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      davinci-resolve
+      # davinci-resolve
       vlc
+      clapper
       ffmpeg
       obs-studio
     ];

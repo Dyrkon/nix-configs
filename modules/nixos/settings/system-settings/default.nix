@@ -55,6 +55,6 @@ in {
       randomizedDelaySec = "45min";
     };
 
-    system.stateVersion = "experimental"; # Did you read the comment?
+    system.stateVersion = "24.11"; # Did you read the comment?
   };
 }

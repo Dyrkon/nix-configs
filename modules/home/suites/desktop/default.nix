@@ -18,7 +18,6 @@ in {
     home.packages = with pkgs;
       lib.optionals pkgs.stdenv.isLinux [
         bitwarden
-        filelight
         gparted
         kdePackages.ark
         kdePackages.gwenview
