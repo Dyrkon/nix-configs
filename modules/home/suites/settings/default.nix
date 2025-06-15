@@ -7,6 +7,7 @@
 }: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt enabled;
+  isLinux = pkgs.stdenv.isLinux;
 
   cfg = config.${namespace}.suites.settings;
 in {
@@ -14,11 +15,7 @@ in {
     enable = mkBoolOpt false "Whether or not to enable plasma settings.";
   };
 
-  config = mkIf cfg.enable {
-    dyrkonix = {
-      settings = {
-        plasma = enabled;
-      };
-    };
+  config = mkIf (cfg.enable && isLinux) {
+    dyrkonix.settings.plasma = enabled;
   };
 }

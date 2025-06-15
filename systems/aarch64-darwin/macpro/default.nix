@@ -9,25 +9,9 @@
   cfg = config.${namespace}.user;
 in {
   dyrkonix = {
-    archetypes = {
-      # personal = enabled;
-      # workstation = enabled;
-    };
-
-    suites = {
-      # art = enabled;
-      # common = enabled;
-      # desktop = enabled;
-      # development = enabled;
-      # games = enabled;
-      # music = enabled;
-      # networking = enabled;
-      # social = enabled;
-      # video = enabled;
-      # vm = enabled;
-    };
-
-    tools.homebrew.masEnable = true;
+    nix = enabled;
+    programs.fish.enable = true;
+    user.enable = true;
   };
 
   environment.systemPath = ["/opt/homebrew/bin"];
@@ -37,27 +21,16 @@ in {
     hostName = "macpro";
     localHostName = "macpro";
 
-    knownNetworkServices = [
-    ];
+    knownNetworkServices = [];
+    wakeOnLan = enabled;
   };
 
   nix.settings = {
     cores = 8;
-    max-jobs = 4;
+    max-jobs = 6;
   };
 
-  security.pam.enableSudoTouchIdAuth = true;
-
-  # virtualisation = {
-  #   docker = {
-  #     enable = true;
-  #     autoPrune = {
-  #       enable = true;
-  #       dates = "weekly";
-  #     };
-  #   };
-  #   libvirtd.enable = true;
-  # };
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   users.users.${cfg.name} = {
     openssh = {
@@ -66,5 +39,7 @@ in {
     };
   };
 
-  system.stateVersion = 4;
+  system = {
+    stateVersion = 6;
+  };
 }
