@@ -51,13 +51,13 @@ in {
 
     systemd.user.services.set-volume = {
       description = "Set audio volume to 100% on login";
-      after = [ "sound.target" ];
+      after = ["sound.target"];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = "pactl set-sink-volume alsa_output.usb-BEHRINGER_UMC202HD_192k-00.pro-output-0 100%";
       };
-      wantedBy = [ "default.target" ];
+      wantedBy = ["default.target"];
     };
   };
 }

@@ -38,6 +38,10 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
     };
+
+    rider-pkgs = {
+      url = "github:NixOS/nixpkgs/d98abf5cf5914e5e4e9d57205e3af55ca90ffc1d";
+    };
   };
 
   outputs = {self, ...} @ inputs: let

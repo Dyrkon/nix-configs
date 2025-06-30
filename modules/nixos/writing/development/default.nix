@@ -20,15 +20,20 @@
   inherit (lib) mkIf;
   inherit (lib.${namespace}) mkBoolOpt;
   cfg = config.${namespace}.writing.development;
+  pkgsRider = import inputs.rider-pkgs {
+    system = system;
+    config.allowUnfree = true;
+  };
+  riderPkg = pkgsRider.jetbrains.rider;
 in {
   options.${namespace}.writing.development = {
     enable = mkBoolOpt false "Whether or not to enable support for code editors.";
   };
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      jetbrains.clion
-      (jetbrains.plugins.addPlugins jetbrains.pycharm-professional ["github-copilot"])
-      (jetbrains.plugins.addPlugins jetbrains.rider ["github-copilot"])
+      # jetbrains.clion
+      # jetbrains.pycharm-professional
+      riderPkg
       vscode
     ];
   };
