@@ -23,7 +23,7 @@
   cfg = config.${namespace}.browsers.chromium;
 in {
   options.${namespace}.browsers.chromium = {
-    enable = mkBoolOpt false "Whether or not to configure firefox.";
+    enable = mkBoolOpt false "Whether or not to configure chromium.";
   };
 
   config = mkIf cfg.enable {

@@ -14,27 +14,33 @@ in {
     };
 
     programs = {
-      terminal = {
-        shell = {
-          fish = enabled;
-        };
+      git.enable = true;
+      fish.enable = true;
+      vscode.enable = true;
+    };
+
+    packages = {
+      utilities.enable = true;
+      productivity.enable = true;
+      communication.enable = true;
+      development.enable = true;
+      ides.enable = true;
+      media.enable = true;
+      editing.enable = true;
+    };
+
+    services = {
+      sops = {
+        enable = false;
+        defaultSopsFile = lib.snowfall.fs.get-file "secrets/secrets.yaml";
+        sshKeyPaths = ["${config.home.homeDirectory}/.ssh/id_ed25519"];
       };
     };
 
-    # suites = {
-    #   business = enabled;
-    #   common = enabled;
-    #   desktop = enabled;
-    #   # development = {
-    #   #   enable = true;
-    #   #   nixEnable = true;
-    #   # };
-    #   # music = enabled;
-    #   # networking = enabled;
-    #   # photo = enabled;
-    #   # social = enabled;
-    # };
+    spotlight-patch.enable = true;
   };
 
-  home.stateVersion = "23.05";
+  programs.home-manager.enable = true;
+
+  home.stateVersion = "25.05";
 }

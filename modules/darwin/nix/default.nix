@@ -3,12 +3,16 @@
   lib,
   namespace,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.nix;
-in {
-  imports = [(lib.snowfall.fs.get-file "modules/shared/nix/default.nix")];
+in
+{
+  imports = [ (lib.snowfall.fs.get-file "modules/shared/nix/default.nix") ];
 
   config = lib.mkIf cfg.enable {
+    # Nix-Darwin config options
+    # Check corresponding shared imported module
     nix = {
       # Options that aren't supported through nix-darwin
       extraOptions = ''
@@ -18,22 +22,20 @@ in {
       '';
 
       gc = {
-        interval = {
-          Day = 7;
-          Hour = 3;
-        };
-
-        user = config.${namespace}.user.name;
+        interval = [
+          {
+            Hour = 3;
+            Minute = 15;
+            Weekday = 1;
+          }
+        ];
       };
 
-      optimise = {
-        interval = {
-          Day = 7;
-          Hour = 4;
-        };
-
-        user = config.${namespace}.user.name;
-      };
+      # Optimize nix store after cleaning
+      optimise.interval = lib.lists.forEach config.nix.gc.interval (e: {
+        inherit (e) Minute Weekday;
+        Hour = e.Hour + 1;
+      });
 
       # NOTE: not sure if i saw any benefits changing this
       # daemonProcessType = "Adaptive";
@@ -45,6 +47,7 @@ in {
           "/System/Library/Frameworks"
           "/System/Library/PrivateFrameworks"
           "/usr/lib"
+
           "/private/tmp"
           "/private/var/tmp"
           "/usr/bin/env"
@@ -54,9 +57,9 @@ in {
         # limit number to see if it helps
         http-connections = lib.mkForce 25;
 
-        # FIX: shouldn't disable, but getting sandbox max size errors on darwin
-        # darwin-rebuild --rollback on testing changing
-        sandbox = lib.mkForce false;
+        # FIXME: upstream bug needs to be resolved before fully enabling
+        # https://github.com/NixOS/nix/issues/12698
+        sandbox = lib.mkForce "relaxed";
       };
     };
   };
