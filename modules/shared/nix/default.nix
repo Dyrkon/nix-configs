@@ -114,20 +114,23 @@ in {
         warn-dirty = false;
         netrc-file = ./misc/facis.netrc;
 
-        substituters = [
-          "https://cache.nixos.org"
-          "https://nix-community.cachix.org"
-          "https://nixpkgs-unfree.cachix.org"
-          "https://numtide.cachix.org"
-          
-        ] ++ lib.optional pkgs.stdenv.isLinux "https://cache.ekpyrosis.nesad.fit.vutbr.cz/ekpyrosis";
+        substituters =
+          [
+            "https://cache.nixos.org"
+            "https://nix-community.cachix.org"
+            "https://nixpkgs-unfree.cachix.org"
+            "https://numtide.cachix.org"
+          ]
+          ++ lib.optional pkgs.stdenv.isLinux "https://cache.ekpyrosis.nesad.fit.vutbr.cz/ekpyrosis";
 
-        trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
-          "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
-        ] ++ lib.optional pkgs.stdenv.isLinux "ekpyrosis:6YrcbWQaztub/MRMGfRyA+xspgJIVAo2dWJ3vel3i4c=";
+        trusted-public-keys =
+          [
+            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+            "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
+            "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+          ]
+          ++ lib.optional pkgs.stdenv.isLinux "ekpyrosis:6YrcbWQaztub/MRMGfRyA+xspgJIVAo2dWJ3vel3i4c=";
 
         use-xdg-base-directories = true;
       };

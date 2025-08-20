@@ -61,6 +61,21 @@ in
         # https://github.com/NixOS/nix/issues/12698
         sandbox = lib.mkForce "relaxed";
       };
+
+      linux-builder = {
+        enable = true;
+        ephemeral = true;
+        maxJobs = 4;
+        config = {
+          virtualisation = {
+            darwin-builder = {
+              diskSize = 40 * 1024;
+              memorySize = 8 * 1024;
+            };
+            cores = 6;
+          };
+        };
+      };
     };
   };
 }

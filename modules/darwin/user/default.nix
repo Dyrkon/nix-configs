@@ -26,6 +26,6 @@ in {
 
   config = mkIf config.${namespace}.user.enable {
     # TODO remove before fresh install
-    ids.gids.nixbld = 30000;  
+    ids.gids.nixbld = 30000;
   };
 }
