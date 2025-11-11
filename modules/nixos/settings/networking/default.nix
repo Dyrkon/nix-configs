@@ -64,7 +64,7 @@ in {
     # };
 
     networking.firewall.allowedTCPPorts = [80 443 21000 21013 64172 2049];
-    networking.firewall.allowedUDPPorts = [64172 67 69 4011 9993];
+    networking.firewall.allowedUDPPorts = [64172 67 69 4011 9993 8001 8000];
     networking.firewall.allowedTCPPortRanges = [
       {
         from = 8000;
