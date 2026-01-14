@@ -16,8 +16,6 @@ in {
       rectangle
       wireshark
       zstd
-      # remmina
-      utm
       oh-my-fish
       localsend
     ];

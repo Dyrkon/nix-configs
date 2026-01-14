@@ -42,6 +42,11 @@
     rider-pkgs = {
       url = "github:NixOS/nixpkgs/d98abf5cf5914e5e4e9d57205e3af55ca90ffc1d";
     };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {self, ...} @ inputs: let
@@ -74,6 +79,7 @@
           darwin = with inputs; [sops-nix.darwinModules.sops];
           nixos = with inputs; [
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
           ];
         };
       };

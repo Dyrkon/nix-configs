@@ -7,8 +7,6 @@ mkShell {
   packages = with pkgs; [
     curl
     foremost
-    ghex
-    vsftpd
     nmap
     john
     fcrackzip
@@ -17,12 +15,13 @@ mkShell {
     zip2hashcat
     binwalk
     p7zip
-  ];
+    metasploit
+    (python3.withPackages (ps: with ps; [
+      cryptography]))
+  ] ++ lib.optional pkgs.stdenv.isLinux [ghex vsftpd];
 
   shellHook = ''
-
     echo 🔨 Cyber Sercurity DevShell
-
 
   '';
 }

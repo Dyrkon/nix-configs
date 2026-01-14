@@ -41,6 +41,7 @@ in {
         group = "users";
         uid = 1027;
         extraGroups = ["wheel"];
+        initialPassword = cfg.initialPassword;
       }
       // cfg.extraOptions;
   };
