@@ -31,6 +31,11 @@ in {
     services.xserver.enable = true;
     services.displayManager.sddm.wayland.enable = true;
 
+    services.displayManager.autoLogin = {
+      enable = true;
+      user = "dyrkon";
+    };
+
     # Enable the KDE Plasma Desktop Environment.
     services.displayManager.sddm.enable = true;
     services.desktopManager.plasma6.enable = true;
@@ -48,6 +53,10 @@ in {
       openFirewall = true;
       defaultWindowManager = "startplasma-x11";
     };
+
+    environment.systemPackages = with pkgs; [
+      freerdp
+    ];
 
     systemd.user.services.set-volume = {
       description = "Set audio volume to 100% on login";

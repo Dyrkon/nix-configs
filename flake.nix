@@ -4,7 +4,7 @@
   inputs = {
     # NixPkgs (nixos-unstable)
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
+      url = "github:NixOS/nixpkgs/nixos-25.11";
     };
 
     snowfall-lib = {
@@ -71,7 +71,9 @@
         # allowBroken = true;
         allowUnfree = true;
 
-        permittedInsecurePackages = [];
+        permittedInsecurePackages = [
+          "electron-36.9.5"
+        ];
       };
 
       systems = {
@@ -85,8 +87,8 @@
       };
 
       homes.modules = with inputs; [
-        plasma-manager.homeManagerModules.plasma-manager
-        sops-nix.homeManagerModules.sops
+        plasma-manager.homeModules.plasma-manager
+        sops-nix.homeModules.sops
       ];
 
       outputs-builder = channels: {

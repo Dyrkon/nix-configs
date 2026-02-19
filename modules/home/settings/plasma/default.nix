@@ -976,7 +976,7 @@ in {
         "kate/anonymous.katesession"."Kate Plugins"."katebacktracebrowserplugin" = false;
         "kate/anonymous.katesession"."Kate Plugins"."katebuildplugin" = false;
         "kate/anonymous.katesession"."Kate Plugins"."katecloseexceptplugin" = false;
-        "kate/anonymous.katesession"."Kate Plugins"."katecolorpickerplugin" = false;
+        # "kate/anonymous.katesession"."Kate Plugins"."katecolorpickerplugin" = false;
         "kate/anonymous.katesession"."Kate Plugins"."katectagsplugin" = false;
         "kate/anonymous.katesession"."Kate Plugins"."katefilebrowserplugin" = false;
         "kate/anonymous.katesession"."Kate Plugins"."katefiletreeplugin" = true;

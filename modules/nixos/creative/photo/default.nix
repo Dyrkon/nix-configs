@@ -28,7 +28,7 @@ in {
     environment.systemPackages = with pkgs; [
       darktable
       krita
-      wacomtablet
+      # wacomtablet
       libwacom
       xf86_input_wacom
     ];

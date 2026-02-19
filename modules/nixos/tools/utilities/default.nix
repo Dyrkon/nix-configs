@@ -44,7 +44,7 @@ in {
       steam-run
       usbutils
       isoimagewriter
-      rpi-imager
+      # rpi-imager
       fastfetch
     ];
   };

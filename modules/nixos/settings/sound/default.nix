@@ -27,27 +27,36 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # We need alsamixer to set device output to 100%, it sometimes defaults to 50%
-    environment.systemPackages = with pkgs; [
-      alsa-utils
-    ];
+  environment.systemPackages = with pkgs; [
+    alsa-utils
+    pavucontrol
+    helvum
+  ];
 
-    # hardware.pulseaudio.enable = false;
-    security.rtkit.enable = true;
-    services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      jack.enable = true;
+  security.rtkit.enable = true;
 
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
 
-    # Noise-torch noise supression
-    programs.noisetorch.enable = true;
+    wireplumber.enable = true;
   };
+
+  services.pipewire.wireplumber.extraConfig.bluetooth = {
+  "monitor.bluez.properties" = {
+    "bluez5.enable-sbc-xq" = true;   # higher-quality SBC (often huge improvement)
+    "bluez5.enable-msbc" = true;     # better HFP if it happens
+    "bluez5.enable-hw-volume" = true;
+
+    # Prefer A2DP for playback; avoid auto-favoring headset role
+    "bluez5.roles" = [ "a2dp_sink" "a2dp_source" ];
+  };
+};
+
+
+  programs.noisetorch.enable = true;
+};
 }

@@ -33,7 +33,8 @@ in {
     environment.systemPackages = with pkgs; [
       # jetbrains.clion
       # jetbrains.pycharm-professional
-      riderPkg
+      # riderPkg
+      jetbrains.rider
       vscode
     ];
   };

@@ -17,7 +17,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs;
       lib.optionals pkgs.stdenv.isLinux [
-        bitwarden
+        bitwarden-desktop
         gparted
         kdePackages.ark
         kdePackages.gwenview
