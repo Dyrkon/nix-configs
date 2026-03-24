@@ -15,9 +15,11 @@ in {
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = userCfg.fullName;
-      userEmail = userCfg.email;
-      extraConfig.push.autoSetupRemote = true;
+      settings.user = {
+        name = userCfg.fullName;
+        email = userCfg.email;
+      };
+      settings.push.autoSetupRemote = true;
     };
   };
 }

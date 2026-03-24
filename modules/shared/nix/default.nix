@@ -12,7 +12,7 @@
 in {
   options.${namespace}.nix = {
     enable = mkBoolOpt true "Whether or not to manage nix configuration.";
-    package = mkOpt lib.types.package pkgs.nixVersions.latest "Which nix package to use.";
+    package = mkOpt lib.types.package pkgs.nix "Which nix package to use.";
   };
 
   config = lib.mkIf cfg.enable {

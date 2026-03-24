@@ -11,7 +11,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      jetbrains.pycharm-professional
+      jetbrains.pycharm
       jetbrains.rider
       jetbrains.clion
     ];

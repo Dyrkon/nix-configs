@@ -13,19 +13,18 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    darwin = {
+      url = "github:lnl7/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Snowfall Flake
     snowfall-flake = {
       url = "github:snowfallorg/flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # macOS Support (master)
-    darwin = {
-      url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
