@@ -46,6 +46,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
   outputs = {self, ...} @ inputs: let
@@ -79,6 +81,7 @@
         modules = {
           darwin = with inputs; [sops-nix.darwinModules.sops];
           nixos = with inputs; [
+            vscode-server.nixosModules.default
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
           ];

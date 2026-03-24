@@ -27,36 +27,35 @@ in {
   };
 
   config = mkIf cfg.enable {
-  environment.systemPackages = with pkgs; [
-    alsa-utils
-    pavucontrol
-    helvum
-  ];
+    environment.systemPackages = with pkgs; [
+      alsa-utils
+      pavucontrol
+      helvum
+    ];
 
-  security.rtkit.enable = true;
+    security.rtkit.enable = true;
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
 
-    wireplumber.enable = true;
+      wireplumber.enable = true;
+    };
+
+    services.pipewire.wireplumber.extraConfig.bluetooth = {
+      "monitor.bluez.properties" = {
+        "bluez5.enable-sbc-xq" = true; # higher-quality SBC (often huge improvement)
+        "bluez5.enable-msbc" = true; # better HFP if it happens
+        "bluez5.enable-hw-volume" = true;
+
+        # Prefer A2DP for playback; avoid auto-favoring headset role
+        "bluez5.roles" = ["a2dp_sink" "a2dp_source"];
+      };
+    };
+
+    programs.noisetorch.enable = true;
   };
-
-  services.pipewire.wireplumber.extraConfig.bluetooth = {
-  "monitor.bluez.properties" = {
-    "bluez5.enable-sbc-xq" = true;   # higher-quality SBC (often huge improvement)
-    "bluez5.enable-msbc" = true;     # better HFP if it happens
-    "bluez5.enable-hw-volume" = true;
-
-    # Prefer A2DP for playback; avoid auto-favoring headset role
-    "bluez5.roles" = [ "a2dp_sink" "a2dp_source" ];
-  };
-};
-
-
-  programs.noisetorch.enable = true;
-};
 }

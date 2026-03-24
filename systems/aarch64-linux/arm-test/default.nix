@@ -14,8 +14,8 @@ in {
     programs.terminal.shell.fish = enabled;
 
     hardware = {
-        networking = enabled;
-      };
+      networking = enabled;
+    };
   };
 
   disko.devices = {
@@ -37,7 +37,7 @@ in {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = ["umask=0077"];
               };
             };
             root = {
