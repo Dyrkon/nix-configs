@@ -30,11 +30,16 @@ in {
         enableUpdateCheck = false;
         update.mode = "none";
         window.zoomLevel = 0;
+
+        "remote.SSH.useLocalServer" = false;
+        "remote.SSH.showLoginTerminal" = true;
+
         terminal.integrated.profiles.osx.fish = {
           path = "${pkgs.fish}/bin/fish";
           args = ["-l"];
         };
         terminal.integrated.defaultProfile.osx = "fish";
+
         editor = {
           fontFamily = font;
           fontLigatures = true;
@@ -42,11 +47,13 @@ in {
           bracketPairColorization.enabled = true;
           formatOnSave = true;
         };
+
         jupyter.alwaysTrustNotebooks = true;
         latex-workshop.view.pdf.viewer = "tab";
         cmake.configureOnOpen = false;
         python.formatting.provider = "black";
         window.menuBarVisibility = "toggle";
+
         files.exclude = {
           "**/.git" = true;
           "**/.svn" = true;
