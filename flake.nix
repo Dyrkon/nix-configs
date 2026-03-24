@@ -2,9 +2,12 @@
   description = "Dyrkon's Nix configuration flake";
 
   inputs = {
-    # NixPkgs (nixos-unstable)
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-25.11";
+    };
+
+    nixpkgs-darwin = {
+      url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
     };
 
     snowfall-lib = {
@@ -19,10 +22,9 @@
 
     darwin = {
       url = "github:lnl7/nix-darwin/nix-darwin-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
-    # Snowfall Flake
     snowfall-flake = {
       url = "github:snowfallorg/flake";
       inputs.nixpkgs.follows = "nixpkgs";

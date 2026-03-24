@@ -29,7 +29,7 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       discord
-      element-desktop
+      # element-desktop
       signal-desktop
     ];
   };
