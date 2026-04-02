@@ -110,15 +110,16 @@ in {
     networking.firewall.allowedUDPPorts = [64172 67 69 4011 9993 8001 8000];
     networking.firewall.allowedTCPPortRanges = [
       {
-        from = 8000;
-        to = 8010;
-      }
-      {
         from = 5000;
-        to = 5500;
+        to = 9000;
       }
     ];
-
+    networking.firewall.allowedUDPPortRanges = [
+      {
+        from = 5000;
+        to = 9000;
+      }
+    ];
     # Or disable the firewall altogether.
     # networking.firewall.enable = false;
   };
