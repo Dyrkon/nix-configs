@@ -16,18 +16,20 @@ in {
   config = mkIf cfg.enable {
     programs.dconf.enable = true;
 
-    users.users.${config.dyrkonix.user}.extraGroups = [
-      "libvirtd"
-      "qemu-libvirtd"
-      "kvm"
-    ];
+    dyrkonix = {
+      user = {
+        extraGroups = [
+          "disk"
+          "input"
+          "kvm"
+          "libvirtd"
+          "qemu-libvirtd"
+        ];
+      };
+    };
 
     networking = {
-      bridges = {
-        "br0" = {
-          interfaces = [ "eno1" ];
-        };
-      };
+      bridges."br0".interfaces = [ "eno1" ];
       interfaces."br0".useDHCP = true;
       interfaces."eno1".useDHCP = false;
     };
