@@ -16,17 +16,11 @@ in {
   config = mkIf cfg.enable {
     programs.dconf.enable = true;
 
-    dyrkonix = {
-      user = {
-        extraGroups = [
-          "disk"
-          "input"
-          "kvm"
-          "libvirtd"
-          "qemu-libvirtd"
-        ];
-      };
-    };
+    users.users.${config.dyrkonix.user}.extraGroups = [
+      "libvirtd"
+      "qemu-libvirtd"
+      "kvm"
+    ];
 
     networking = {
       bridges = {
@@ -42,12 +36,7 @@ in {
       virt-manager
       virt-viewer
       virt-install
-      spice
-      spice-gtk
-      spice-protocol
-      virtio-win
-      win-spice
-      adwaita-icon-theme
+      bridge-utils
     ];
 
     virtualisation = {
@@ -55,13 +44,11 @@ in {
         enable = true;
         qemu = {
           swtpm.enable = true;
-          ovmf.enable = true;
           verbatimConfig = ''
             bridge_helper = "/run/wrappers/bin/qemu-bridge-helper"
           '';
         };
       };
-      spiceUSBRedirection.enable = true;
     };
 
     environment.etc."qemu/bridge.conf".text = "allow br0";
