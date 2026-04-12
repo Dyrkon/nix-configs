@@ -1,19 +1,7 @@
 {
-  # Snowfall Lib provides a customized `lib` instance with access to your flake's library
-  # as well as the libraries available from your flake's inputs.
   lib,
-  # An instance of `pkgs` with your overlays and packages applied is also available.
   pkgs,
-  # You also have access to your flake's inputs.
-  inputs,
-  # Additional metadata is provided by Snowfall Lib.
-  namespace, # The namespace used for your flake, defaulting to "internal" if not set.
-  system, # The system architecture for this host (eg. `x86_64-linux`).
-  target, # The Snowfall Lib target for this system (eg. `x86_64-iso`).
-  format, # A normalized name for the system target (eg. `iso`).
-  virtual, # A boolean to determine whether this system is a virtual target using nixos-generators.
-  systems, # An attribute map of your defined hosts.
-  # All other arguments come from the module system.
+  namespace,
   config,
   ...
 }: let
@@ -22,10 +10,10 @@
   cfg = config.${namespace}.virtualization.kvm;
 in {
   options.${namespace}.virtualization.kvm = {
-    enable = mkBoolOpt false "Whether or not to enable support for photo editing.";
+    enable = mkBoolOpt false "Whether or not to enable KVM virtualization and bridge networking.";
   };
+
   config = mkIf cfg.enable {
-    # Enable dconf (System Management Tool)
     programs.dconf.enable = true;
 
     dyrkonix = {
@@ -40,10 +28,20 @@ in {
       };
     };
 
-    # Install necessary packages
+    networking = {
+      bridges = {
+        "br0" = {
+          interfaces = [ "eno1" ];
+        };
+      };
+      interfaces."br0".useDHCP = true;
+      interfaces."eno1".useDHCP = false;
+    };
+
     environment.systemPackages = with pkgs; [
       virt-manager
       virt-viewer
+      virt-install
       spice
       spice-gtk
       spice-protocol
@@ -52,16 +50,22 @@ in {
       adwaita-icon-theme
     ];
 
-    # Manage the virtualisation services
     virtualisation = {
       libvirtd = {
         enable = true;
         qemu = {
           swtpm.enable = true;
+          ovmf.enable = true;
+          verbatimConfig = ''
+            bridge_helper = "/run/wrappers/bin/qemu-bridge-helper"
+          '';
         };
       };
       spiceUSBRedirection.enable = true;
     };
+
+    environment.etc."qemu/bridge.conf".text = "allow br0";
+
     services.spice-vdagentd.enable = true;
   };
 }
