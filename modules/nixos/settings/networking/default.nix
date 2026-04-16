@@ -104,6 +104,8 @@ in {
       }
     ];
 
+    networking.nameservers = [ "1.1.1.1" "8.8.8.8" "192.168.88.1" ];
+
     networking.firewall.extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
 
     networking.firewall.allowedTCPPorts = [80 443 21000 21013 64172 2049];

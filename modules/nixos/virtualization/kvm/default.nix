@@ -37,7 +37,6 @@ in {
     environment.systemPackages = with pkgs; [
       virt-manager
       virt-viewer
-      virt-install
       bridge-utils
     ];
 
