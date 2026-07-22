@@ -3,132 +3,112 @@
   inputs,
   lib,
   pkgs,
-  namespace,
+  username,
+  self,
   ...
-}: let
-  inherit (lib.${namespace}) mkBoolOpt mkOpt;
-
-  cfg = config.${namespace}.nix;
-in {
-  options.${namespace}.nix = {
-    enable = mkBoolOpt true "Whether or not to manage nix configuration.";
-    package = mkOpt lib.types.package pkgs.nix "Which nix package to use.";
+}: {
+  # faster rebuilding
+  documentation = {
+    doc.enable = false;
+    info.enable = false;
+    man.enable = lib.mkDefault true;
   };
 
-  config = lib.mkIf cfg.enable {
-    # faster rebuilding
-    documentation = {
-      doc.enable = false;
-      info.enable = false;
-      man.enable = lib.mkDefault true;
+  environment = {
+    etc = with inputs; {
+      # set channels (backwards compatibility)
+      "nix/flake-channels/system".source = self;
+      "nix/flake-channels/nixpkgs".source = nixpkgs;
+      "nix/flake-channels/home-manager".source = home-manager;
+
+      # preserve current flake in /etc
+      "nixos/flake".source = self;
     };
 
-    environment = {
-      etc = with inputs; {
-        # set channels (backwards compatibility)
-        "nix/flake-channels/system".source = self;
-        "nix/flake-channels/nixpkgs".source = nixpkgs;
-        "nix/flake-channels/home-manager".source = home-manager;
+    systemPackages = with pkgs; [
+      cachix
+      git
+      nix-prefetch-git
+    ];
+  };
 
-        # preserve current flake in /etc
-        "nixos/flake".source = self;
-      };
+  nix = let
+    mappedRegistry = lib.pipe inputs [
+      (lib.filterAttrs (_: lib.isType "flake"))
+      (lib.mapAttrs (_: flake: {inherit flake;}))
+      (x: x // (lib.mkIf pkgs.stdenv.isLinux {nixpkgs.flake = inputs.nixpkgs;}))
+    ];
 
-      systemPackages = with pkgs; [
-        cachix
-        git
-        nix-prefetch-git
-      ];
+    users = [
+      "root"
+      "@admin"
+      "@matej"
+      "@wheel"
+      "nix-builder"
+      username
+    ];
+  in {
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
     };
 
-    nix = let
-      mappedRegistry = lib.pipe inputs [
-        (lib.filterAttrs (_: lib.isType "flake"))
-        (lib.mapAttrs (_: flake: {inherit flake;}))
-        (x: x // (lib.mkIf pkgs.stdenv.isLinux {nixpkgs.flake = inputs.nixpkgs;}))
+    # This will additionally add your inputs to the system's legacy channels
+    # Making legacy nix commands consistent as well
+    nixPath = lib.mapAttrsToList (key: _: "${key}=flake:${key}") config.nix.registry;
+
+    optimise.automatic = pkgs.stdenv.isLinux;
+
+    # pin the registry to avoid downloading and evaluating a new nixpkgs version every time
+    # this will add each flake input as a registry to make nix3 commands consistent with your flake
+    registry = mappedRegistry;
+
+    distributedBuilds = true;
+    buildMachines = let
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+        "nixos-test"
+      ];
+    in
+      lib.filter (m: m.hostName != config.networking.hostName) [
+        {
+          hostName = "bigpc";
+          systems = ["x86_64-linux" "i686-linux"];
+          maxJobs = 16;
+          speedFactor = 10;
+          supportedFeatures = supportedFeatures ++ ["kvm" "benchmark"];
+        }
       ];
 
-      users = [
-        "root"
-        "@admin"
-        "@matej"
-        "@wheel"
-        "nix-builder"
-        config.${namespace}.user.name
+    settings = {
+      allowed-users = users;
+      builders-use-substitutes = true;
+      experimental-features = ["cgroups" "flakes" "nix-command" "ca-derivations" "fetch-closure"];
+      flake-registry = "/etc/nix/registry.json";
+      http-connections = 50;
+      keep-derivations = true;
+      keep-going = true;
+      log-lines = 50;
+      sandbox = true;
+      trusted-users = users;
+      warn-dirty = false;
+
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+        "https://nixpkgs-unfree.cachix.org"
+        "https://numtide.cachix.org"
       ];
-    in {
-      inherit (cfg) package;
-      gc = {
-        automatic = true;
-        options = "--delete-older-than 7d";
-      };
 
-      # This will additionally add your inputs to the system's legacy channels
-      # Making legacy nix commands consistent as well
-      nixPath = lib.mapAttrsToList (key: _: "${key}=flake:${key}") config.nix.registry;
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
+        "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+      ];
 
-      optimise.automatic = pkgs.stdenv.isLinux;
-
-      # pin the registry to avoid downloading and evaluating a new nixpkgs version every time
-      # this will add each flake input as a registry to make nix3 commands consistent with your flake
-      registry = mappedRegistry;
-
-      distributedBuilds = true;
-      buildMachines = let
-        supportedFeatures = [
-          "benchmark"
-          "big-parallel"
-          "nixos-test"
-        ];
-      in
-        lib.filter (m: m.hostName != "${config.networking.hostName}") [
-          {
-            hostName = "bigpc";
-            systems = ["x86_64-linux" "i686-linux"];
-            maxJobs = 16;
-            speedFactor = 10;
-            supportedFeatures = supportedFeatures ++ ["kvm" "benchmark"];
-          }
-          # {
-          #   hostName = "rp4";
-          #   systems = [ "aarch64-linux" ];
-          #   maxJobs = 2;
-          #   supportedFeatures = [ "kvm" "nixos-test" "big-parallel" "benchmark" ];
-          #   inherit sshUser sshKey;
-          #   speedFactor = 2;
-          # }
-        ];
-
-      settings = {
-        allowed-users = users;
-        builders-use-substitutes = true;
-        experimental-features = ["cgroups" "flakes" "nix-command" "ca-derivations" "fetch-closure"];
-        flake-registry = "/etc/nix/registry.json";
-        http-connections = 50;
-        keep-derivations = true;
-        keep-going = true;
-        # keep-outputs = true;
-        log-lines = 50;
-        sandbox = true;
-        trusted-users = users;
-        warn-dirty = false;
-
-        substituters = [
-          "https://cache.nixos.org"
-          "https://nix-community.cachix.org"
-          "https://nixpkgs-unfree.cachix.org"
-          "https://numtide.cachix.org"
-        ];
-
-        trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
-          "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
-        ];
-
-        use-xdg-base-directories = true;
-      };
+      use-xdg-base-directories = true;
     };
   };
 }

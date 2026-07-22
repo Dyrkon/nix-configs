@@ -1,20 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkIf;
-  inherit (lib.${namespace}) mkBoolOpt;
-
-  cfg = config.${namespace}.settings.plasma;
-in {
-  options.${namespace}.settings.plasma = {
-    enable = mkBoolOpt false "Whether or not to enable support for localization setting.";
-  };
-
-  config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
+{ pkgs, ... }: {
     programs.plasma = {
       enable = true;
       shortcuts = {
@@ -1084,5 +1068,5 @@ in {
         "kate/anonymous.katesession"."Plugin:katesearchplugin:MainWindow:0"."UseRegExp" = false;
       };
     };
-  };
 }
+

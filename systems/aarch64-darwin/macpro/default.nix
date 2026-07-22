@@ -1,28 +1,11 @@
-{
-  lib,
-  config,
-  namespace,
-  ...
-}: let
-  inherit (lib.${namespace}) enabled;
-
-  cfg = config.${namespace}.user;
-in {
-  dyrkonix = {
-    nix = enabled;
-    programs.fish.enable = true;
-    user.enable = true;
-  };
-
+{username, ...}: {
   environment.systemPath = ["/opt/homebrew/bin"];
 
   networking = {
     computerName = "Matejs MacBook Pro";
     hostName = "macpro";
     localHostName = "macpro";
-
     knownNetworkServices = [];
-    wakeOnLan = enabled;
   };
 
   nix.settings = {
@@ -32,14 +15,9 @@ in {
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  users.users.${cfg.name} = {
-    openssh = {
-      authorizedKeys.keys = [
-      ];
-    };
+  users.users.${username} = {
+    openssh.authorizedKeys.keys = [];
   };
 
-  system = {
-    stateVersion = 6;
-  };
+  system.stateVersion = 6;
 }

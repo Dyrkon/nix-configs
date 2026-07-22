@@ -1,74 +1,48 @@
 {
-  config,
-  lib,
-  namespace,
+  pkgs,
+  username,
+  secretsFile,
   ...
-}: let
-  inherit (lib.${namespace}) enabled;
-in {
-  imports = [
-    ./hardware.nix
-  ];
+}: {
+  imports = [./hardware.nix];
 
-  dyrkonix = {
-    nix = enabled;
+  networking.hostName = "facis-nixos";
 
-    suites = {
-      common = {
-        enable = true;
-      };
+  programs.steam.enable = true;
+  programs.firefox.enable = true;
 
-      gaming = {
-        enable = true;
-      };
-
-      creative = {
-        enable = true;
-      };
-
-      communication = {
-        enable = true;
-      };
-
-      office = {
-        enable = true;
-      };
-
-      browsing = {
-        enable = true;
-      };
-
-      development = {
-        enable = true;
-      };
-
-      data-analysis = {
-        enable = true;
-      };
-    };
-    security = {
-      sops = {
-        enable = true;
-        defaultSopsFile = lib.snowfall.fs.get-file "secrets/secrets.yaml";
-        sshKeyPaths = ["${config.users.users.${config.${namespace}.user.name}.home}/.ssh/id_ed25519"];
-      };
-
-      pxe-config = {
-        enable = true;
-      };
-    };
+  sops = {
+    defaultSopsFile = secretsFile;
+    age.sshKeyPaths = ["/home/${username}/.ssh/id_ed25519"];
   };
+
+  users.users.${username} = {
+    isNormalUser = true;
+    uid = 1027;
+    group = "users";
+    shell = pkgs.fish;
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "audio"
+      "video"
+      "docker"
+      "podman"
+      "disk"
+      "input"
+      "kvm"
+      "libvirtd"
+      "qemu-libvirtd"
+    ];
+  };
+
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = ["electron-36.9.5"];
 
   nix.settings = {
     cores = 8;
     max-jobs = 4;
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }

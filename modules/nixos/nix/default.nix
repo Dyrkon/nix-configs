@@ -1,71 +1,53 @@
-{
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib) mkDefault mkIf;
+{lib, ...}: {
+  documentation = {
+    man.generateCaches = lib.mkDefault true;
 
-  cfg = config.${namespace}.nix;
-in {
-  imports = [(lib.snowfall.fs.get-file "modules/shared/nix/default.nix")];
+    nixos = {
+      enable = true;
 
-  config = mkIf cfg.enable {
-    documentation = {
-      man.generateCaches = mkDefault true;
-
-      nixos = {
-        enable = true;
-
-        options = {
-          warningsAreErrors = true;
-          splitBuild = true;
-        };
+      options = {
+        warningsAreErrors = true;
+        splitBuild = true;
       };
     };
+  };
 
-    nix = {
-      # make builds run with low priority so my system stays responsive
-      daemonCPUSchedPolicy = "batch";
-      daemonIOSchedClass = "idle";
-      daemonIOSchedPriority = 7;
+  nix = {
+    # make builds run with low priority so my system stays responsive
+    daemonCPUSchedPolicy = "batch";
+    daemonIOSchedClass = "idle";
+    daemonIOSchedPriority = 7;
 
-      gc = {
-        dates = "Sun *-*-* 03:00";
-      };
+    gc = {
+      dates = "Sun *-*-* 03:00";
+    };
 
-      optimise = {
-        automatic = true;
-        dates = ["04:00"];
-      };
+    optimise = {
+      automatic = true;
+      dates = ["04:00"];
+    };
 
-      settings = {
-        # bail early on missing cache hits
-        connect-timeout = 5;
-        experimental-features = ["cgroups"];
-        keep-going = true;
-        use-cgroups = true;
+    settings = {
+      # bail early on missing cache hits
+      connect-timeout = 5;
+      experimental-features = ["cgroups"];
+      keep-going = true;
+      use-cgroups = true;
 
-        substituters = [
-          "https://anyrun.cachix.org"
-          "https://hyprland.cachix.org"
-          "https://nix-gaming.cachix.org"
-          "https://nixpkgs-wayland.cachix.org"
-          "http://machineone:8501"
-        ];
-        trusted-public-keys = [
-          "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
-          "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-          "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-          "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-          "machineone.lan:TzQdabC1iCWjXiyNQQd8GgrfzGgdTTORMiLmOgHhUh4="
-        ];
-      };
-
-      # flake-utils-plus
-      generateNixPathFromInputs = true;
-      generateRegistryFromInputs = true;
-      linkInputs = true;
+      substituters = [
+        "https://anyrun.cachix.org"
+        "https://hyprland.cachix.org"
+        "https://nix-gaming.cachix.org"
+        "https://nixpkgs-wayland.cachix.org"
+        "http://machineone:8501"
+      ];
+      trusted-public-keys = [
+        "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+        "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+        "machineone.lan:TzQdabC1iCWjXiyNQQd8GgrfzGgdTTORMiLmOgHhUh4="
+      ];
     };
   };
 }

@@ -1,23 +1,9 @@
 {
-  config,
-  lib,
-  namespace,
+  pkgs,
+  username,
+  secretsFile,
   ...
-}: let
-  inherit (lib.${namespace}) enabled;
-in {
-  imports = [];
-
-  dyrkonix = {
-    nix = enabled;
-
-    programs.terminal.shell.fish = enabled;
-
-    hardware = {
-      networking = enabled;
-    };
-  };
-
+}: {
   disko.devices = {
     disk = {
       main = {
@@ -28,7 +14,7 @@ in {
           partitions = {
             boot = {
               size = "1M";
-              type = "EF02"; # for grub MBR
+              type = "EF02";
             };
             ESP = {
               size = "1G";
@@ -57,16 +43,23 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  sops = {
+    defaultSopsFile = secretsFile;
+    age.sshKeyPaths = ["/home/${username}/.ssh/id_ed25519"];
+  };
+
+  users.users.${username} = {
+    isNormalUser = true;
+    shell = pkgs.fish;
+    extraGroups = ["wheel" "networkmanager"];
+  };
+
+  nixpkgs.config.allowUnfree = true;
+
   nix.settings = {
     cores = 2;
     max-jobs = 2;
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }

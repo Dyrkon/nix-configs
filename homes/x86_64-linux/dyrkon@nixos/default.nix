@@ -1,22 +1,14 @@
-{
-  config,
-  lib,
-  namespace,
-  ...
-}: let
-  inherit (lib.${namespace}) enabled;
-in {
-  dyrkonix = {
-    user = {
-      enable = true;
-      inherit (config.snowfallorg.user) name;
-    };
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    bitwarden-desktop
+    gparted
+    kdePackages.ark
+    kdePackages.gwenview
+    realvnc-vnc-viewer
+  ];
 
-    suites = {
-      settings = enabled;
-      desktop = enabled;
-    };
-  };
-
+  home.username = "dyrkon";
+  home.homeDirectory = "/home/dyrkon";
+  programs.home-manager.enable = true;
   home.stateVersion = "25.11";
 }

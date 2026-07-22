@@ -1,37 +1,10 @@
-{
-  # Snowfall Lib provides a customized `lib` instance with access to your flake's library
-  # as well as the libraries available from your flake's inputs.
-  lib,
-  # An instance of `pkgs` with your overlays and packages applied is also available.
-  pkgs,
-  # You also have access to your flake's inputs.
-  inputs,
-  # Additional metadata is provided by Snowfall Lib.
-  namespace, # The namespace used for your flake, defaulting to "internal" if not set.
-  system, # The system architecture for this host (eg. `x86_64-linux`).
-  target, # The Snowfall Lib target for this system (eg. `x86_64-iso`).
-  format, # A normalized name for the system target (eg. `iso`).
-  virtual, # A boolean to determine whether this system is a virtual target using nixos-generators.
-  systems, # An attribute map of your defined hosts.
-  # All other arguments come from the module system.
-  config,
-  ...
-}: let
-  inherit (lib) mkIf;
-  inherit (lib.${namespace}) mkBoolOpt;
-  cfg = config.${namespace}.gaming.controllers;
-  freejoy = lib.path.append inputs.self.snowfall.config.src "misc/99-hid-FreeJoy.rules";
+{pkgs, self, ...}: let
+  freejoy = self + "/misc/99-hid-FreeJoy.rules";
 in {
-  options.${namespace}.gaming.controllers = {
-    enable = mkBoolOpt false "Whether or not to enable support for controllers.";
-  };
+  environment.systemPackages = with pkgs; [
+    linuxKernel.packages.linux_xanmod_latest.xone
+    libusbp
+  ];
 
-  config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      linuxKernel.packages.linux_xanmod_latest.xone
-      libusbp
-    ];
-
-    services.udev.extraRules = builtins.readFile freejoy;
-  };
+  services.udev.extraRules = builtins.readFile freejoy;
 }
