@@ -12,5 +12,8 @@ in {
 
   config = lib.mkIf cfg.enable {
     programs.fish.enable = true;
+
+    # TODO
+    services.tailscale.enable = true;
   };
 }
