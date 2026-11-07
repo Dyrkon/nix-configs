@@ -91,23 +91,38 @@
     kdePackages.kmag
     kdePackages.kmouth
     orca
-    rustdesk
+    #rustdesk
     kdePackages.kcalc
     kdePackages.okular
+    tailscale
   ];
 
-  systemd.services.rustdesk = {
-    description = "RustDesk Remote Desktop Gateway";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.rustdesk}/bin/rustdesk --service";
-      Restart = "always";
-    };
-  };
+  # systemd.services.rustdesk = {
+  #   description = "RustDesk Remote Desktop Gateway";
+  #   after = [ "network.target" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.rustdesk}/bin/rustdesk --service";
+  #     Restart = "always";
+  #   };
+  # };
 
   services.openssh.enable = true;
   services.openssh.settings.X11Forwarding = true;
+
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    useRoutingFeatures = "server";
+  };
+  networking.nftables.enable = true;
+
+  systemd.services.tailscaled.serviceConfig.Environment = [ 
+    "TS_DEBUG_FIREWALL_MODE=nftables" 
+  ];
+
+  systemd.network.wait-online.enable = false; 
+  boot.initrd.systemd.network.wait-online.enable = false;
 
   services.zerotierone = {
     enable = true;
@@ -119,8 +134,13 @@
   services.xrdp.defaultWindowManager = "${pkgs.kdePackages.plasma-workspace}/bin/startplasma-x11";
   services.xrdp.openFirewall = true;
 
-  networking.firewall.allowedTCPPorts = [ 3389 22 ];
-  networking.firewall.allowedUDPPorts = [ 3389 22 ];
+  networking.firewall = {
+    enable = true;
+    # Always allow traffic from your Tailscale network
+    trustedInterfaces = [ config.services.tailscale.interfaceName ];
+    allowedTCPPorts = [ 3389 22 ];
+    allowedUDPPorts = [ config.services.tailscale.port 3389 22 ];
+  };
 
-  system.stateVersion = "25.11"; 
+  system.stateVersion = "26.05"; 
 }
